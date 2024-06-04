@@ -6,29 +6,26 @@ import (
 	"os/exec"
 )
 
-const NMAX int = 10          // Jumlah maksimum tenant
-const HARGASEWA int = 200000 // Harga sewa per tenant sekali bayar
+const NMAX int = 10          
+const HARGASEWA int = 200000 
 
-// Mendefinisikan struct untuk Makanan
 type Makanan struct {
-	NamaMakanan  string // Nama makanan
-	HargaMakanan int    // Harga makanan
-	Stok         int    // Stok makanan
+	NamaMakanan  string 
+	HargaMakanan int    
+	Stok         int    
 }
 
-// Mendefinisikan struct untuk Tenant
 type Tenant struct {
-	NamaTenant     string        // Nama tenant
-	DataMakanan    [NMAX]Makanan // Array makanan
-	JumlahMakanan  int           // Jumlah makanan
-	TotalTransaksi int           // Total transaksi tenant
+	NamaTenant     string        
+	DataMakanan    [NMAX]Makanan 
+	JumlahMakanan  int           
+	TotalTransaksi int           t
 }
 
-// Variabel global
-var tenants [NMAX]Tenant // Array tenant
-var jumlahTenant int     // Jumlah tenant
-var totalAdmin int       // Total uang admin
-var totalSewaAdmin int   // Total uang sewa admin
+var tenants [NMAX]Tenant 
+var jumlahTenant int     
+var totalAdmin int       
+var totalSewaAdmin int   
 
 func main() {
 	var pilih int
@@ -60,26 +57,22 @@ func main() {
 	bye()
 }
 
-// Menampilkan pesan selamat datang
 func intro() {
 	clear_screen()
 	fmt.Println("Selamat datang")
 }
 
-// Menampilkan pesan selamat tinggal
 func bye() {
 	clear_screen()
 	fmt.Println("Sampai jumpa")
 }
 
-// Membersihkan layar
 func clear_screen() {
 	c := exec.Command("clear")
 	c.Stdout = os.Stdout
 	c.Run()
 }
 
-// Menampilkan menu utama
 func menu_utama(p *int) {
 	fmt.Println("----------------------------")
 	fmt.Println("          M E N U           ")
@@ -97,7 +90,6 @@ func menu_utama(p *int) {
 	fmt.Scan(p)
 }
 
-// Menampilkan menu untuk menambahkan data tenant
 func menu_tambahkan_data_tenant() {
 	clear_screen()
 	fmt.Println("--------------------------")
@@ -120,7 +112,6 @@ func menu_tambahkan_data_tenant() {
 	}
 }
 
-// Menambahkan tenant baru
 func menambahkanTenant() {
 	if jumlahTenant >= NMAX {
 		fmt.Println("Tidak bisa menambah tenant lagi. Kapasitas penuh.")
@@ -131,11 +122,10 @@ func menambahkanTenant() {
 	tenants[jumlahTenant].JumlahMakanan = 0
 	tenants[jumlahTenant].TotalTransaksi = 0
 	jumlahTenant++
-	totalSewaAdmin = totalSewaAdmin + HARGASEWA // Menambahkan uang sewa ke total uang admin
+	totalSewaAdmin = totalSewaAdmin + HARGASEWA 
 	menu_tambahkan_data_tenant()
 }
 
-// Menambahkan data makanan ke tenant
 func menambahkanDataTenant() {
 	var pilihTenant int
 	// << sequential search >>
@@ -167,7 +157,6 @@ func menambahkanDataTenant() {
 	menu_tambahkan_data_tenant()
 }
 
-// Menampilkan menu untuk mengubah data tenant
 func menu_mengubah_data_tenant() {
 	clear_screen()
 	fmt.Println("--------------------------")
@@ -187,7 +176,6 @@ func menu_mengubah_data_tenant() {
 	}
 }
 
-// Mengubah data tenant
 func mengubahTenant() {
 	var pilihTenant, pilihMakanan int
 	fmt.Println("Daftar Tenant:")
@@ -223,7 +211,6 @@ func mengubahTenant() {
 	menu_mengubah_data_tenant()
 }
 
-// Menampilkan menu untuk menghapus data tenant
 func menu_hapus_data_tenant() {
 	clear_screen()
 	fmt.Println("--------------------------")
@@ -246,7 +233,6 @@ func menu_hapus_data_tenant() {
 	}
 }
 
-// Menghapus tenant
 func menghapusTenant() {
 	var pilihTenant int
 	fmt.Println("Daftar Tenant:")
@@ -261,7 +247,6 @@ func menghapusTenant() {
 	}
 	pilihTenant--
 
-	// Menggeser tenant ke kiri untuk menghapus tenant yang dipilih
 	for i := pilihTenant; i < jumlahTenant-1; i++ {
 		tenants[i] = tenants[i+1]
 	}
@@ -269,7 +254,6 @@ func menghapusTenant() {
 	menu_hapus_data_tenant()
 }
 
-// Menghapus data makanan dari tenant
 func menghapusDataTenant() {
 	var pilihTenant, pilihMakanan int
 	fmt.Println("Daftar Tenant:")
@@ -296,7 +280,6 @@ func menghapusDataTenant() {
 	}
 	pilihMakanan--
 
-	// Menggeser makanan ke kiri untuk menghapus makanan yang dipilih
 	for i := pilihMakanan; i < tenants[pilihTenant].JumlahMakanan-1; i++ {
 		tenants[pilihTenant].DataMakanan[i] = tenants[pilihTenant].DataMakanan[i+1]
 	}
@@ -304,7 +287,6 @@ func menghapusDataTenant() {
 	menu_hapus_data_tenant()
 }
 
-// Menampilkan menu transaksi tenant
 func transaksi_data_tenant() {
 	clear_screen()
 	fmt.Println("--------------------------")
@@ -330,7 +312,6 @@ func transaksi_data_tenant() {
 	}
 }
 
-// Melakukan transaksi pada tenant
 func transkasiTenant() {
 	var pilihTenant, pilihMakanan int
 	fmt.Println("Daftar Tenant:")
@@ -367,7 +348,6 @@ func transkasiTenant() {
 	transaksi_data_tenant()
 }
 
-// Menampilkan total transaksi tenant
 func totalTranskasiTenant() {
 	var totalTransaksi int
 	for i := 0; i < jumlahTenant; i++ {
@@ -378,14 +358,12 @@ func totalTranskasiTenant() {
 	transaksi_data_tenant()
 }
 
-// Mengecek total uang admin
 func cekUangAdmin() {
 	fmt.Printf("Total Uang Admin (Transaksi): %d\n", totalAdmin)
 	fmt.Printf("Total Uang Admin (Sewa): %d\n", totalSewaAdmin)
 	transaksi_data_tenant()
 }
 
-// Menampilkan menu untuk menampilkan data tenant
 func tampilkan_data_tenant() {
 	clear_screen()
 	fmt.Println("--------------------------")
@@ -405,7 +383,6 @@ func tampilkan_data_tenant() {
 	}
 }
 
-// Menampilkan semua data tenant
 func tampilkanTenant() {
 	fmt.Println("Daftar Tenant:")
 	for i := 0; i < jumlahTenant; i++ {
@@ -417,7 +394,6 @@ func tampilkanTenant() {
 	tampilkan_data_tenant()
 }
 
-// Menampilkan menu untuk mengurutkan data tenant
 func urutkan_data_tenant() {
 	clear_screen()
 	fmt.Println("--------------------------")
@@ -437,7 +413,6 @@ func urutkan_data_tenant() {
 	}
 }
 
-// Mengurutkan tenant berdasarkan total transaksi
 // << Insertion sort >>
 func urutanTenant() {
 	for i := 1; i < jumlahTenant; i++ {
@@ -456,7 +431,6 @@ func urutanTenant() {
 	urutkan_data_tenant()
 }
 
-// Menampilkan menu untuk mencari tenant
 func cari_tenant() {
 	clear_screen()
 	fmt.Println("--------------------------")
@@ -476,7 +450,6 @@ func cari_tenant() {
 	}
 }
 
-// Binary search untuk mencari tenant berdasarkan nama
 // << Binary Search >>
 func binarySearchTenant(name string) int {
 	left, right := 0, jumlahTenant-1
@@ -493,7 +466,6 @@ func binarySearchTenant(name string) int {
 	return -1
 }
 
-// Mencari tenant berdasarkan nama
 func cariTenantByName() {
 	var name string
 	fmt.Print("Masukkan nama tenant yang dicari: ")
@@ -519,7 +491,6 @@ func selectionSortTenantsByName() {
 				minIndex = j
 			}
 		}
-		// Tukar elemen
 		tenants[i], tenants[minIndex] = tenants[minIndex], tenants[i]
 	}
 	fmt.Println("Data tenant berhasil diurutkan berdasarkan nama.")
