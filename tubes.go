@@ -19,7 +19,7 @@ type Tenant struct {
 	NamaTenant     string        
 	DataMakanan    [NMAX]Makanan 
 	JumlahMakanan  int           
-	TotalTransaksi int           t
+	TotalTransaksi int           
 }
 
 var tenants [NMAX]Tenant 
